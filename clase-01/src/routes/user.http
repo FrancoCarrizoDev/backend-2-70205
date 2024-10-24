@@ -14,7 +14,13 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/users/67171a649c81d1ff83259e5a
+PUT http://localhost:8080/api/users/67183b3f00ea1ec265096085
 Content-Type: application/json
+
+{
+  "name": "John Doe2 ",
+  "age": 33,
+  "email": "jhon2@doe.com"  
+}
 
 ###
