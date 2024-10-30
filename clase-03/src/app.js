@@ -13,6 +13,7 @@ import __dirname from "./utils.js";
 import * as path from "path";
 import userModel from "./models/userModel.js";
 import authRouter from "./routes/authRouter.js";
+import { isAuthenticated, isNotAuthenticated } from "./middlewares/auth.js";
 
 const app = express();
 
@@ -47,17 +48,11 @@ app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
 app.set("views", path.resolve(__dirname + "/views"));
 
-app.get("/", async (req, res) => {
-  const userId = req.session?.userId;
-
-  if (!req.session.userId) {
-    res.redirect("/login");
-  }
-
-  const user = await userModel.findOne({ _id: userId });
+app.get("/", isAuthenticated, async (req, res) => {
+  const user = await userModel.findOne({ _id: req.session.userId });
 
   if (!user) {
-    res.redirect("/login");
+    return res.redirect("/login");
   }
 
   const { name } = user;
@@ -66,11 +61,24 @@ app.get("/", async (req, res) => {
     title: "Bienvenido",
     user: {
       name,
+      role: req.session.role,
     },
   });
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", isNotAuthenticated, (req, res) => {
+  if (req.session.error) {
+    res.render("login", {
+      title: "Error - Iniciar Sesión",
+      layout: "login",
+      error: {
+        message: req.session.error,
+        count: req.session.countError,
+      },
+    });
+    req.session.error = null;
+    return;
+  }
   res.render("login", {
     title: "Iniciar Sesión",
     layout: "login",

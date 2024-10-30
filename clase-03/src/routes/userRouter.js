@@ -21,9 +21,9 @@ router.get("/", async (req, res) => {
 
 // Crear un usuario
 router.post("/", async (req, res) => {
-  const { name, age, email, password } = req.body;
+  const { name, age, email, password, role } = req.body;
   try {
-    const result = await userModel.create({ name, age, email, password });
+    const result = await userModel.create({ name, age, email, password, role });
 
     req.session.userId = result._id;
     res.redirect("/");

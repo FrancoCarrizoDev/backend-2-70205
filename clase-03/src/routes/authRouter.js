@@ -10,11 +10,19 @@ router.post("/login", async (req, res) => {
 
     if (!user) {
       req.session.error = "Credenciales inválidas";
+      req.session.countError = req.session.countError
+        ? req.session.countError + 1
+        : 1;
+
+      if (req.session.countError > 3) {
+        req.session.dateBlocked = new Date();
+      }
       res.redirect("/login");
       return;
     }
 
     req.session.userId = user._id;
+    req.session.role = user.role;
     req.session.error = null;
     res.redirect("/");
   } catch (error) {
