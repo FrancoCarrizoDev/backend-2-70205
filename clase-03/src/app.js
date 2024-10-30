@@ -92,6 +92,22 @@ app.get("/register", (req, res) => {
   });
 });
 
+app.get("/profile", isAuthenticated, async (req, res) => {
+  const user = await userModel.findOne({ _id: req.session.userId }).lean();
+
+  if (!user) {
+    return res.redirect("/login");
+  }
+
+  const { name } = user;
+  res.render("profile", {
+    title: "Perfil",
+    user: {
+      name,
+    },
+  });
+});
+
 app.use("/api/users", userRouter);
 app.use("/api/cookies", cookieRouter);
 app.use("/api/session", sessionRouter);
