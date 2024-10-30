@@ -1,0 +1,26 @@
+{
+  "name": "class-zero-hands-on-labs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Project template with Express and Handlebars",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "Joaquin Cejas",
+  "license": "ISC",
+  "dependencies": {
+    "class-zero-hands-on-labs": "file:",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.18.2",
+    "express-handlebars": "^8.0.1",
+    "mongoose": "^7.5.2",
+    "session-file-store": "^1.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
